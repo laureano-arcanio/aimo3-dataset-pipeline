@@ -1,0 +1,36 @@
+# Training Dependencies (Notebook 11)
+# Install with: pip install -r requirements-training.txt
+# Requires CUDA-capable GPU
+
+# Include base requirements
+-r requirements.txt
+
+# PyTorch (adjust for your CUDA version)
+# For CUDA 11.8:
+torch>=2.0.0
+# For CUDA 12.1:
+# torch>=2.1.0
+
+# HuggingFace Ecosystem
+transformers>=4.56.0,<5.0.0
+datasets>=4.3.0
+accelerate>=0.30.0
+huggingface-hub>=0.34.0
+
+# Fine-tuning & Optimization
+peft>=0.10.0
+trl>=0.22.0,<0.23.0
+bitsandbytes>=0.43.0
+
+# Tokenization & Serialization
+sentencepiece>=0.1.99
+protobuf>=3.20.0,<4.0.0
+
+# Optional: Unsloth optimization
+# unsloth>=2024.1.0
+# unsloth-zoo
+
+# Optional: Additional optimizations
+# xformers>=0.0.23
+# triton>=2.1.0
+# flash-attn>=2.3.0
