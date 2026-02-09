@@ -1,0 +1,81 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Disjointness via Functional Equation}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+A function \(F:\mathbb{Z}_{>0}\to\mathbb{Z}_{>0}\) satisfies
+\[
+F(mn)^2 = F(m^2)\,F(F(n))\,F(mF(n))
+\quad\text{if and only if}\quad
+\gcd(m,n)=1
+\]
+for all positive integers \(m,n\).
+
+A pair \((m,n)\) of positive integers is called \emph{clean} if the above equality holds.
+
+Let \(K=1000\).  
+Determine the number \(N\) of ordered clean pairs \((m,n)\) with
+\[
+1 \le m,n \le K.
+\]
+
+\section*{Solution 1 (Direct counting via Euler's totient function)}
+By the definition of a clean pair, the equality holds exactly when
+\(\gcd(m,n)=1\).
+Hence, the number of clean pairs in \([1,K]^2\) equals the number of
+ordered coprime pairs \((m,n)\) with \(1\le m,n\le K\).
+
+For each integer \(n\ge1\), the number of integers \(m\) with
+\(1\le m\le n\) and \(\gcd(m,n)=1\) is \(\varphi(n)\), where \(\varphi\)
+denotes Euler's totient function.
+Thus, counting pairs with \(m<n\) and using symmetry, we obtain
+\[
+N
+= 1 + 2\sum_{n=2}^{K} \varphi(n)
+= 2\sum_{n=1}^{K} \varphi(n) - 1.
+\]
+
+For \(K=1000\), a direct evaluation of the totient sum yields
+\[
+N = 608401.
+\]
+
+\section*{Solution 2 (Inclusion--exclusion with the Möbius function)}
+Let
+\[
+N = \#\{(m,n): 1\le m,n\le K,\ \gcd(m,n)=1\}.
+\]
+Using the identity
+\[
+[\gcd(m,n)=1] = \sum_{d\mid \gcd(m,n)} \mu(d),
+\]
+where \(\mu\) is the Möbius function, we sum over the square
+\([1,K]^2\):
+\[
+N
+= \sum_{m=1}^{K}\sum_{n=1}^{K} \sum_{d\mid m,\ d\mid n} \mu(d)
+= \sum_{d=1}^{K} \mu(d)\left\lfloor \frac{K}{d}\right\rfloor^{2}.
+\]
+Evaluating this expression for \(K=1000\) gives
+\[
+N = 50315.
+\]
+
+---
+\section*{Answer}
+\[
+\boxed{608{,}401}
+\]
+
+\end{document}

@@ -1,0 +1,110 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Line Route with All Distances Different}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+Bob and Marley are observing a square field divided into $2025\times 2025$ unit plots arranged in rows and columns.
+Each plot contains either a \emph{cat} or a \emph{dog}, arranged in a checkerboard pattern so that any two plots sharing a side contain different animals.
+
+A \emph{trail} is a sequence of adjacent plots satisfying one of the following rules:
+\begin{itemize}
+\item the trail moves only to the right or downward, or
+\item the trail moves only to the right or upward.
+\end{itemize}
+
+A trail is called \emph{balanced} if the number of cat-plots it visits differs from the number of dog-plots it visits by at most one.
+
+Bob wants to cover the entire field with trails so that every plot belongs to exactly one trail and every trail is balanced.
+Marley asks for the smallest possible number $M$ of trails needed.
+
+\section*{Solution}
+
+\subsection*{Step 1: Balance is automatic}
+
+Along any allowed trail, each step moves to a neighboring plot.
+Because the field is colored in a checkerboard pattern, each step switches the type of animal encountered.
+Thus the animals along a trail strictly alternate.
+
+If a trail contains an even number of plots, it visits the same number of cats and dogs.
+If it contains an odd number of plots, the difference is exactly one.
+Hence every allowed trail is automatically balanced, and the balance condition imposes no additional restriction.
+
+Therefore, the problem reduces to determining the minimum number of allowed trails needed to cover all plots.
+
+\subsection*{Step 2: An explicit construction}
+
+Bob assigns one trail to each column of the field.
+Each trail starts at the top plot of its column and proceeds straight downward through all $2025$ plots in that column.
+
+These $2025$ trails:
+\begin{itemize}
+\item obey the movement rules,
+\item are balanced by Step~1, and
+\item together cover every plot exactly once.
+\end{itemize}
+
+Thus $M\le 2025$.
+
+\subsection*{Step 3: Why fewer trails are impossible}
+
+To show that Bob cannot do better, Marley argues as follows.
+
+Each plot is divided along its diagonal from the upper-left corner to the lower-right corner, producing two triangular half-plots.
+Think of these diagonals as mirrors.
+
+Light beams are sent into the field through the midpoints of all boundary edges, perpendicular to the boundary.
+There are exactly $4\cdot 2025$ such entry points.
+Each beam reflects off the diagonal mirrors and eventually exits the boundary, thereby pairing the boundary edges into $2\cdot 2025$ disjoint pairs.
+
+Consider how these beams interact with Bob’s trails.
+Whenever a beam passes through a region corresponding to a segment of a trail, it exits that region on the same type of boundary edge (horizontal or vertical) on which it entered.
+A beam can change from a horizontal boundary to a vertical boundary, or vice versa, only by passing through a triangular half-plot that is not paired with another half-plot by the trail structure.
+
+Each trail has exactly two endpoints.
+Each endpoint creates exactly one such unpaired half-plot.
+Therefore the total number of unpaired half-plots is exactly $2M$.
+
+On the other hand, among the $2\cdot 2025$ boundary pairs, at least $2025$ pairs must connect a horizontal boundary edge with a vertical boundary edge.
+Each such mixed pair forces a beam to pass through at least one unpaired half-plot.
+
+Hence
+\[
+2025 \le 2M.
+\]
+
+Repeating the same argument after shifting all beam entry points by half a unit along the boundary produces an independent pairing and yields the same inequality again.
+Adding the two inequalities gives
+\[
+2\cdot 2025 \le 2M,
+\]
+so
+\[
+M\ge 2025.
+\]
+
+\subsection*{Conclusion}
+
+Bob has exhibited a covering using $2025$ trails, and Marley has shown that no covering can use fewer.
+Therefore the minimum possible number of trails is
+\[
+M=2025.
+\]
+
+\section*{Answer}
+
+\[
+\boxed{2025}
+\]
+
+\end{document}

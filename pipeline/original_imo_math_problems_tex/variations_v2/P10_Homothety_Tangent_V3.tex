@@ -1,0 +1,115 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Homothety and Tangent Configuration}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+
+Let $ABC$ be a triangle with incenter $I$ and incircle $\omega$.  
+Points $X,Y\in BC$ are defined as follows:
+\begin{itemize}
+\item the line through $X$ parallel to $AC$ is tangent to $\omega$;
+\item the line through $Y$ parallel to $AB$ is tangent to $\omega$.
+\end{itemize}
+Let $AI$ meet the circumcircle of $\triangle ABC$ again at $P\neq A$.
+
+For an integer $m\ge 2$, let $K_m\in AB$ and $L_m\in AC$ satisfy
+\[
+\frac{AK_m}{AB}=\frac{AL_m}{AC}=\frac{1}{m}.
+\]
+Define the statement $\mathcal{S}(m)$:
+
+\emph{For every triangle $ABC$ with $AB<AC<BC$, the identity}
+\[
+\angle K_m I L_m + \angle YPX = 180^\circ
+\]
+\emph{holds.}
+
+Let
+\[
+N=\#\{\,m\in\{2,3,\dots,200000\}\mid \mathcal{S}(m)\text{ is true}\,\}.
+\]
+Determine $N$.
+
+\section*{Solution 1 (Direct / Homothety)}
+
+Let $A_1$ be the reflection of $A$ across $I$.  
+As in the original tangency construction, $A_1X$ and $A_1Y$ are tangents to $\omega$.  
+Hence the quadrilaterals $B,P,A_1,X$ and $C,Y,A_1,P$ are cyclic.
+
+Therefore,
+\[
+\angle APX=\angle A_1BC, \qquad
+\angle YPA=\angle BCA_1,
+\]
+and
+\[
+\angle YPX=\angle A_1BC+\angle BCA_1.
+\]
+
+Thus the given identity becomes
+\[
+\angle K_m I L_m = \angle CA_1B.
+\tag{1}
+\]
+
+Consider the homothety centered at $A$ with factor $m$.  
+By construction, it sends $K_m$ to $B$ and $L_m$ to $C$.  
+It sends $I$ to the point $A+m(I-A)$.
+
+The equality \((1)\) holds for all triangles if and only if this image of $I$ coincides with $A_1$, which is the reflection of $A$ across $I$, i.e.
+\[
+A_1 = A+2(I-A).
+\]
+Hence $m=2$.
+
+For $m=2$, the homothety sends $(K_2,L_2,I)$ to $(B,C,A_1)$, giving
+\[
+\angle K_2 I L_2 = \angle CA_1B,
+\]
+and the angle sum is $180^\circ$.  
+For any $m\neq 2$, equality \((1)\) fails for a generic triangle.
+
+Thus $\mathcal{S}(m)$ holds if and only if $m=2$.
+
+\section*{Solution 2 (Invariance Argument)}
+
+From the tangency and cyclicity alone (independent of $m$), we obtain
+\[
+\angle YPX = 180^\circ - \angle CA_1B,
+\]
+where $A_1$ is the reflection of $A$ across $I$.
+
+Hence
+\[
+\angle K_m I L_m + \angle YPX = 180^\circ
+\quad\Longleftrightarrow\quad
+\angle K_m I L_m = \angle CA_1B.
+\]
+
+The right-hand side depends only on the fixed point $A_1$, while the left-hand side depends on the positions of $K_m,L_m$ on $AB,AC$.
+The only value of $m$ for which the dilation centered at $A$ maps
+\[
+(K_m,L_m,I)\longmapsto(B,C,A_1)
+\]
+is $m=2$.
+
+Therefore the equality can hold identically for all triangles only when $m=2$.
+
+\section*{Answer}
+
+\[
+\boxed{N=1}
+\]
+
+\end{document}

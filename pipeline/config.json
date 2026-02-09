@@ -1,14 +1,6 @@
 {
-  "MAX_EXECUTION_RETRIES": 1,
-  "MAX_ANSWER_RETRIES": 3,
-  "LLM_REQUEST_RETRY_COUNT": 2,
-  "LLM_REQUEST_TIMEOUT_SECONDS": 300,
-  "EXECUTION_TIMEOUT_SECONDS": 20,
-  "MAX_CONCURRENT_REQUESTS": 100,
-  "_comment_MAX_EXECUTION_RETRIES": "Number of retries for code execution failures (timeouts/errors)",
-  "_comment_MAX_ANSWER_RETRIES": "Number of retries when code produces wrong answer",
-  "_comment_LLM_REQUEST_RETRY_COUNT": "Number of retries for failed LLM API requests",
-  "_comment_LLM_REQUEST_TIMEOUT_SECONDS": "Timeout for LLM API requests in seconds",
-  "_comment_EXECUTION_TIMEOUT_SECONDS": "Timeout for code execution in seconds",
-  "_comment_MAX_CONCURRENT_REQUESTS": "Maximum number of concurrent LLM requests"
+  "MAX_CONCURRENT": 10,
+  "EXECUTION_TIMEOUT": 30,
+  "REQUEST_TIMEOUT": 50,
+  "SAVE_EVERY": 200
 }

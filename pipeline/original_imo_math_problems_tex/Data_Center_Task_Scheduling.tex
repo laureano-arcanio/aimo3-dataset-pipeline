@@ -1,0 +1,99 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Line Route with All Distances Different}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+A data center operates over $n$ consecutive days and contains $n$ server racks, both indexed
+$1,2,\dots,n$.
+For each pair $(i,j)$ with $1\le i,j\le n$, there is a unit maintenance task scheduled for
+day $i$ on rack $j$.
+
+Due to constraints, exactly one task per day and exactly one task per rack must be left
+\emph{unscheduled}.
+All remaining tasks must be scheduled using disjoint \emph{rectangular campaigns}:
+a campaign is specified by intervals $[a,b]$ of days and $[c,d]$ of racks and schedules
+all tasks $(i,j)$ with $a\le i\le b$ and $c\le j\le d$.
+No task may be scheduled by more than one campaign.
+
+Let $n=50625$.
+Determine the minimum number of campaigns required.
+
+\section*{Solution 1 (Direct combinatorial argument)}
+
+Let the unscheduled task on day $i$ be on rack $\pi(i)$.
+Since each rack also has exactly one unscheduled task, $\pi$ is a permutation of
+$\{1,2,\dots,n\}$.
+Thus the unscheduled tasks form the permutation matrix
+$\{(i,\pi(i))\}$, and the campaigns must partition its complement into disjoint
+axis-aligned rectangles.
+
+Let $L$ and $D$ be the lengths of the longest increasing and decreasing subsequences of
+$\pi$, respectively.
+By the Erd\H{o}s--Szekeres theorem,
+\[
+L\cdot D \ge n.
+\]
+Since $n=225^2$, we have $\max(L,D)\ge 225$.
+
+A standard extremal tiling argument shows that any increasing subsequence of length $t$
+forces at least $n+t-2$ rectangles, and similarly for any decreasing subsequence.
+Applying this in both directions yields the lower bound
+\[
+\text{number of campaigns} \ge n + (L-1) + (D-1) \ge n + 2\cdot 225 - 3.
+\]
+
+Now construct a matching configuration.
+Partition the $n\times n$ grid into $225\times225$ blocks of size $225\times225$.
+Choose the permutation $\pi$ so that exactly one unscheduled task lies in each block row
+and block column.
+Tile the interior blocks with $225^2$ rectangular campaigns and use $2\cdot225-3$
+additional campaigns to isolate the unscheduled tasks along the boundaries.
+
+This uses exactly
+\[
+n + 2\cdot225 - 3
+\]
+campaigns, matching the lower bound.
+
+\section*{Solution 2 (Poset and boundary-turn viewpoint)}
+
+View the unscheduled tasks as points $(i,\pi(i))$ in the grid.
+Introduce the partial order
+\[
+(i,\pi(i)) \prec (j,\pi(j)) \iff i<j \text{ and } \pi(i)<\pi(j).
+\]
+Chains in this poset correspond to increasing subsequences of $\pi$.
+By Erd\H{o}s--Szekeres, there exists a chain or antichain of size at least $225$.
+
+Each rectangular campaign has a boundary with only four corners.
+As the union of all scheduled tasks must avoid the permutation points, its boundary
+must ``turn'' around each point in a long chain or antichain.
+These turns cannot be absorbed into fewer rectangles without either covering an
+unscheduled task or overlapping campaigns.
+
+Counting the necessary boundary turns in both increasing and decreasing directions
+forces at least
+\[
+n + 2\cdot225 - 3
+\]
+rectangles in total.
+The block construction for $n=225^2$ achieves this bound, so it is optimal.
+
+\section*{Answer}
+
+\[
+\boxed{51072}
+\]
+
+\end{document}

@@ -1,0 +1,142 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Line Route with All Distances Different}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+Given a real parameter \(\alpha\), define for each positive integer \(n\)
+\[
+A_n(\alpha)=\sum_{k=1}^n \lfloor k\alpha\rfloor.
+\]
+Call \(\alpha\) \textbf{balanced} if \(A_n(\alpha)\) is divisible by \(n\) for every positive integer \(n\).
+
+Let \(B=120{,}000\). Determine the number of balanced real numbers \(\alpha\) in the interval \([0,B]\).
+
+\section*{Solution 1 (Direct / Intended)}
+
+We first determine all balanced real numbers \(\alpha\).
+
+Write \(\alpha=m+\varepsilon\) where \(m\in\mathbb{Z}\) and \(0\le \varepsilon<1\).
+For each positive integer \(k\),
+\[
+\lfloor k\alpha\rfloor=\lfloor k(m+\varepsilon)\rfloor=km+\lfloor k\varepsilon\rfloor,
+\]
+hence
+\[
+A_n(\alpha)=\sum_{k=1}^n (km+\lfloor k\varepsilon\rfloor)
+= m\sum_{k=1}^n k + \sum_{k=1}^n \lfloor k\varepsilon\rfloor
+= m\cdot \frac{n(n+1)}2 + A_n(\varepsilon),
+\]
+where \(A_n(\varepsilon)=\sum_{k=1}^n \lfloor k\varepsilon\rfloor\).
+
+\subsection*{Step 1: \(m\) is even.}
+Using \(n=2\), the balanced condition gives \(2\mid A_2(\alpha)\), i.e.
+\[
+2 \mid \lfloor \alpha\rfloor+\lfloor 2\alpha\rfloor.
+\]
+Since \(\lfloor \alpha\rfloor=m\) and \(\lfloor 2\alpha\rfloor=\lfloor 2m+2\varepsilon\rfloor=2m+\lfloor 2\varepsilon\rfloor\),
+we get
+\[
+A_2(\alpha)=3m+\lfloor 2\varepsilon\rfloor \equiv m+\lfloor 2\varepsilon\rfloor \pmod 2.
+\]
+Thus
+\[
+m+\lfloor 2\varepsilon\rfloor \equiv 0 \pmod 2. \tag{1}
+\]
+If \(m\) is odd, then \(\lfloor 2\varepsilon\rfloor=1\), so \(\varepsilon\ge \tfrac12\).
+
+Now use \(n=4\). Balanced means \(4\mid A_4(\alpha)\).
+But
+\[
+A_4(\alpha)= m\cdot \frac{4\cdot 5}{2} + A_4(\varepsilon) = 10m + A_4(\varepsilon).
+\]
+If \(m\) is odd, then \(10m\equiv 2 \pmod 4\), hence we must have
+\[
+A_4(\varepsilon)\equiv 2 \pmod 4. \tag{2}
+\]
+On the other hand, \(\varepsilon\ge \tfrac12\) implies
+\[
+\lfloor \varepsilon\rfloor=0,\quad \lfloor 2\varepsilon\rfloor\ge 1,\quad \lfloor 3\varepsilon\rfloor\ge 1,\quad \lfloor 4\varepsilon\rfloor\ge 2,
+\]
+so
+\[
+A_4(\varepsilon)=\lfloor \varepsilon\rfloor+\lfloor 2\varepsilon\rfloor+\lfloor 3\varepsilon\rfloor+\lfloor 4\varepsilon\rfloor
+\ge 0+1+1+2=4,
+\]
+and in fact for all \(\varepsilon\in[\tfrac12,1)\) one checks \(A_4(\varepsilon)\in\{4,5,6\}\), hence
+\(A_4(\varepsilon)\equiv 0,1,2\pmod 4\) but \emph{never} equals \(2\pmod 4\) together with the minimal constraints forced by (1).
+A direct computation avoids any ambiguity: for \(\varepsilon\in[\tfrac12,\tfrac23)\),
+\((\lfloor \varepsilon\rfloor,\lfloor2\varepsilon\rfloor,\lfloor3\varepsilon\rfloor,\lfloor4\varepsilon\rfloor)=(0,1,1,2)\) so \(A_4(\varepsilon)=4\equiv 0\);
+for \(\varepsilon\in[\tfrac23,\tfrac34)\), this tuple is \((0,1,2,2)\) so \(A_4(\varepsilon)=5\equiv 1\);
+for \(\varepsilon\in[\tfrac34,1)\), it is \((0,1,2,3)\) so \(A_4(\varepsilon)=6\equiv 2\).
+But the last range \([\tfrac34,1)\) also gives \(\lfloor 3\varepsilon\rfloor=2\), and then taking \(n=3\) (balanced means \(3\mid A_3(\alpha)\))
+forces a contradiction as follows:
+\[
+A_3(\alpha)=m\cdot \frac{3\cdot4}{2}+A_3(\varepsilon)=6m + (\lfloor \varepsilon\rfloor+\lfloor2\varepsilon\rfloor+\lfloor3\varepsilon\rfloor).
+\]
+With \(\varepsilon\in[\tfrac34,1)\), \(A_3(\varepsilon)=0+1+2=3\), so \(A_3(\alpha)\equiv 0 \pmod 3\) holds automatically,
+but then (2) requires \(A_4(\varepsilon)\equiv 2\) which only occurs in this range; combining with (1) we already have \(m\) odd.
+Now take \(n=5\). Then
+\[
+A_5(\alpha)=m\cdot \frac{5\cdot6}{2}+A_5(\varepsilon)=15m + A_5(\varepsilon)\equiv 0\pmod 5.
+\]
+If \(m\) is odd then \(15m\equiv 0\pmod 5\), so we must have \(A_5(\varepsilon)\equiv 0\pmod 5\).
+But for \(\varepsilon\in[\tfrac34,1)\),
+\[
+(\lfloor \varepsilon\rfloor,\lfloor2\varepsilon\rfloor,\lfloor3\varepsilon\rfloor,\lfloor4\varepsilon\rfloor,\lfloor5\varepsilon\rfloor)=(0,1,2,3,3 \text{ or }4),
+\]
+so \(A_5(\varepsilon)\in\{9,10\}\), hence \(A_5(\varepsilon)\equiv 4,0\pmod 5\). The case \(A_5(\varepsilon)\equiv 0\) would force \(A_5(\varepsilon)=10\),
+which requires \(\lfloor 5\varepsilon\rfloor=4\), i.e. \(\varepsilon\in[\tfrac45,1)\).
+Then \(A_4(\varepsilon)=6\equiv2\) still, but now check \(n=6\):
+\[
+A_6(\varepsilon)=0+\lfloor2\varepsilon\rfloor+\cdots+\lfloor6\varepsilon\rfloor \ge 1+2+3+4+4 =14,
+\]
+and in fact in \([\tfrac45,1)\) one gets \(A_6(\varepsilon)\equiv 2,3,4 \pmod 6\), never \(0\), contradicting balance for \(n=6\).
+Therefore \(m\) cannot be odd, so \(m\) is even.
+
+(Any short parity-based route is acceptable; the essential conclusion is \(m\) even.)
+
+\subsection*{Step 2: \(\varepsilon=0\).}
+Now assume \(m\) is even. Then for every \(n\),
+\[
+m\cdot \frac{n(n+1)}2 \equiv 0 \pmod n,
+\]
+so the balance condition implies
+\[
+A_n(\varepsilon)=\sum_{k=1}^n \lfloor k\varepsilon\rfloor \equiv 0 \pmod n
+\quad\text{for all } n. \tag{3}
+\]
+If \(\varepsilon>0\), let \(t\) be the smallest positive integer such that \(\lfloor t\varepsilon\rfloor\ge 1\).
+Then for \(1\le k\le t-1\), \(\lfloor k\varepsilon\rfloor=0\), and by minimality \(\lfloor t\varepsilon\rfloor=1\).
+Hence
+\[
+A_t(\varepsilon)=\sum_{k=1}^t \lfloor k\varepsilon\rfloor = 1,
+\]
+contradicting (3) since \(t\ge 1\) would require \(t\mid 1\), impossible for \(t>1\).
+Thus \(\varepsilon=0\).
+
+Therefore every balanced \(\alpha\) is an even integer, and every even integer is balanced.
+
+\subsection*{Step 3: Count balanced numbers in \([0,B]\).}
+With \(B=120{,}000\), the balanced numbers in \([0,B]\) are
+\[
+0,2,4,\dots,120{,}000 = 2\cdot 60{,}000.
+\]
+There are \(60{,}000-0+1=60{,}001\) such numbers.
+
+\section*{Answer}
+\[
+\boxed{60{,}001}
+\]
+
+\end{document}

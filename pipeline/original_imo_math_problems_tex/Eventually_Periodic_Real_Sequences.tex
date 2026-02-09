@@ -1,0 +1,142 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Line Route with All Distances Different}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+Let $(a_n)$ be a real sequence satisfying:
+
+\begin{enumerate}
+\item \emph{Eventually periodic:} There exist integers $N_0 \ge 1$ and $T \ge 1$ such that
+\[
+a_{n+T} = a_n \quad \text{for all } n \ge N_0.
+\]
+\item \emph{Recurrence:} For all integers $n \ge 1$,
+\[
+a_{n+2} + a_{2n} = a_{n+1} + a_{2n+1}.
+\]
+\item \emph{Square-summable increments:}
+\[
+\sum_{n=1}^{\infty} (a_{n+1} - a_n)^2 < \infty.
+\]
+\end{enumerate}
+
+Determine the \emph{maximum possible} value of $N$, the number of distinct real values attained by the sequence $(a_n)$.
+
+\section*{Solution 1 (Forcing the tail to be constant)}
+
+Define the first differences
+\[
+d_n := a_{n+1}-a_n \qquad (n\ge 1).
+\]
+From the recurrence, for every $n\ge 1$,
+\[
+a_{n+2}-a_{n+1} = a_{2n+1}-a_{2n},
+\]
+hence
+\[
+d_{n+1} = d_{2n} \qquad (n\ge 1).
+\]
+Equivalently, for every integer $x\ge 2$ (letting $x=n+1$),
+\begin{equation}
+d_x = d_{2(x-1)}. \tag{1}
+\end{equation}
+
+Let $h(x)=2(x-1)$. Iterating \eqref{1} gives, for all $k\ge 0$ and $x\ge 2$,
+\[
+d_x = d_{h^k(x)}.
+\]
+We claim that for all $k\ge 0$ and $x\ge 2$,
+\begin{equation}
+h^k(x)=2^k(x-2)+2. \tag{2}
+\end{equation}
+This is proved by induction on $k$. For $k=0$, $h^0(x)=x=2^0(x-2)+2$. Assume true for $k$.
+Then
+\[
+h^{k+1}(x)=h(h^k(x))=2(h^k(x)-1)
+=2\bigl(2^k(x-2)+2-1\bigr)=2^{k+1}(x-2)+2,
+\]
+proving \eqref{2}.
+
+Fix any $x\ge 3$. Then by \eqref{2}, the integers $h^k(x)=2^k(x-2)+2$ are strictly increasing in $k$,
+hence pairwise distinct. Since $d_{h^k(x)}=d_x$ for all $k\ge 0$, if $d_x\neq 0$ then
+\[
+\sum_{n=1}^{\infty} d_n^2 \;\ge\; \sum_{k=0}^{\infty} d_{h^k(x)}^2
+=\sum_{k=0}^{\infty} d_x^2 = \infty,
+\]
+contradicting $\sum_{n=1}^{\infty} d_n^2<\infty$. Therefore,
+\[
+d_n=0 \quad \text{for all } n\ge 3.
+\]
+Hence
+\[
+a_3=a_4=a_5=\cdots =: C
+\]
+for some real constant $C$.
+
+Thus all values of the sequence lie in the set $\{a_1,a_2,C\}$, so the number of distinct
+values satisfies
+\[
+N \le 3.
+\]
+
+\section*{Solution 2 (Independent construction and optimality)}
+
+We independently determine all sequences satisfying the hypotheses and count the number
+of distinct values they may attain.
+
+Assume $(a_n)$ satisfies the three given conditions. From the recurrence,
+\[
+a_{n+2}-a_{n+1} = a_{2n+1}-a_{2n},
+\]
+and the square-summability of $(a_{n+1}-a_n)$, the same iteration argument as above
+forces
+\[
+a_{n+1}=a_n \quad \text{for all } n\ge 3.
+\]
+Hence there exists a real constant $C$ such that $a_n=C$ for all $n\ge 3$.
+
+Conversely, choose arbitrary real numbers $a_1,a_2,C$ and define
+\[
+a_n:=C \quad \text{for all } n\ge 3.
+\]
+Then $(a_n)$ is eventually constant, hence eventually periodic. The increment sequence
+satisfies
+\[
+(a_{n+1}-a_n)^2 = 0 \quad \text{for all } n\ge 3,
+\]
+so the square-sum condition holds. The recurrence is easily checked directly:
+it holds for $n=1,2$ by substitution, and for $n\ge 3$ all involved terms equal $C$.
+
+Therefore, every solution has all its values in $\{a_1,a_2,C\}$, and every such triple
+produces a valid solution. Hence
+\[
+N\le 3.
+\]
+
+To show that $3$ is attainable, take $a_1,a_2,C$ pairwise distinct, for example
+\[
+a_1=10,\qquad a_2=5,\qquad C=0,
+\]
+and define $a_n=C$ for all $n\ge 3$. This sequence satisfies all conditions and attains
+exactly three distinct values.
+
+\section*{Answer}
+
+The number of distinct values is always at most $3$, and this bound is sharp. Hence the
+maximum possible value of $N$ is
+\[
+\boxed{3}.
+\]
+
+\end{document}

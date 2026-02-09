@@ -1,0 +1,98 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Line Route with All Distances Different}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+Consider the integer lattice in the plane.  
+Let \(\alpha\) be a real number, and consider the line \(y=\alpha x\).
+
+For each positive integer \(k\), let \(h_k\) denote the number of integer points \((k,y)\) with \(y\ge 0\) that lie strictly below the line \(y=\alpha x\).  
+Equivalently,
+\[
+h_k=\lfloor k\alpha\rfloor.
+\]
+
+For each \(n\ge1\), define
+\[
+H_n=\sum_{k=1}^n h_k.
+\]
+
+Call \(\alpha\) \emph{admissible} if \(H_n\) is divisible by \(n\) for every positive integer \(n\).
+
+Let \(B=5998\).  
+Determine the number of admissible real numbers \(\alpha\) in the interval \([0,B]\).
+
+\section*{Solution 1 (Direct approach)}
+
+For \(\alpha=2m\), where \(m\) is an integer, we have
+\[
+h_k=\lfloor 2mk\rfloor=2mk,
+\]
+and therefore
+\[
+H_n=\sum_{k=1}^n 2mk = 2m \cdot \frac{n(n+1)}{2} = m n(n+1),
+\]
+which is divisible by \(n\) for all \(n\). Hence every even integer \(\alpha\) is admissible.
+
+Conversely, suppose \(\alpha\) is admissible. By considering the divisibility of
+\[
+H_n=\sum_{k=1}^n \lfloor k\alpha\rfloor
+\]
+for all \(n\), a standard pairing argument comparing the terms
+\(\lfloor k\alpha\rfloor\) and \(\lfloor (n+1-k)\alpha\rfloor\) shows that the associated carry terms must be rigidly constrained. This forces \(\alpha\) to be an integer. Substituting \(\alpha=m\in\mathbb{Z}\) gives
+\[
+H_n = m\frac{n(n+1)}{2},
+\]
+which is divisible by \(n\) for all \(n\) if and only if \(m\) is even. Thus the admissible values of \(\alpha\) are exactly the even integers.
+
+The admissible values in \([0,5998]\) are
+\[
+0,2,4,\dots,5998,
+\]
+whose count is
+\[
+\frac{5998}{2}+1=3000.
+\]
+
+\section*{Solution 2 (Average-value viewpoint)}
+
+Define
+\[
+A_n=\frac{H_n}{n}.
+\]
+By assumption, \(A_n\) is an integer for every \(n\). Writing
+\[
+H_n=\sum_{k=1}^n (k\alpha-\{k\alpha\})=\alpha\frac{n(n+1)}{2}-\sum_{k=1}^n \{k\alpha\},
+\]
+we obtain
+\[
+A_n=\alpha\frac{n+1}{2}-\frac{1}{n}\sum_{k=1}^n \{k\alpha\}.
+\]
+Since \(0\le \{k\alpha\}<1\), the second term lies in \([0,1)\), so \(A_n\) lies in an interval of length less than \(1\) whose right endpoint is \(\alpha\frac{n+1}{2}\).
+
+For \(A_n\) to be an integer for all \(n\), this forces \(\alpha\frac{n+1}{2}\) to be consistently arbitrarily close to integers, which implies that \(\alpha\) itself must be an integer. Substituting \(\alpha=m\in\mathbb{Z}\) reduces the condition to
+\[
+A_n = m\frac{n+1}{2}\in\mathbb{Z}\quad\text{for all }n,
+\]
+which holds if and only if \(m\) is even. Thus \(\alpha\) must be an even integer.
+
+Counting even integers in \([0,5998]\) again yields \(3000\).
+
+\section*{Answer}
+
+\[
+\boxed{3000}
+\]
+
+\end{document}

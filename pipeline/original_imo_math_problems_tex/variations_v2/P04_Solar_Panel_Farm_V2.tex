@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Solar Panel Farm Layout}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+
+A solar farm has a $900 \times 900$ ground area divided into unit square plots.
+Rectangular solar panels are placed on the ground, with sides parallel to the grid lines, and no two panels overlap.
+
+For maintenance access, \emph{in each row and in each column, exactly one unit square must be left empty}.
+
+What is the \emph{minimum number of panels} needed?
+
+\section*{Solution (Extremal Argument using Erd\H{o}s--Szekeres)}
+
+Because there is exactly one empty square in each row and in each column, the empty squares define a permutation of the set $\{1,2,\dots,900\}$.
+
+Let $a$ be the length of the longest increasing subsequence and $b$ the length of the longest decreasing subsequence of this permutation. By the Erd\H{o}s--Szekeres theorem,
+\[
+ab \ge 900,
+\]
+which implies
+\[
+a + b \ge 2\sqrt{900} = 60.
+\]
+
+Using a standard extremal labeling argument, one can mark at least
+\[
+900 + a + b - 3
+\]
+unit squares such that no axis-aligned rectangle can cover more than one marked square.
+Therefore, each pallet can cover at most one marked square, and the number of panels is at least
+\[
+900 + 40 - 3 = 957.
+\]
+
+Hence, any valid configuration requires at least $437$ pallets.
+
+\section*{Answer}
+
+\[
+\boxed{957}
+\]
+
+\end{document}

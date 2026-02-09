@@ -1,0 +1,115 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Line Route with All Distances Different}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+Consider the set $\mathcal M$ of all monomials in the commuting variables
+$x_2,x_3,x_5,x_11$ with nonnegative integer exponents (including the monomial $1$).
+A function $F:\mathcal M\to \mathbb Z_{>0}$ satisfies the following property:
+
+For all $A,B\in\mathcal M$,
+\[
+F(AB)^2 = F(A^2)\,F(F(B))\,F\!\left(A\cdot F(B)\right)
+\]
+holds if and only if $A$ and $B$ have no common variable.
+
+Assume in addition that
+\[
+F(x_2)=8.
+\]
+
+Let
+\[
+P=x_2x_3x_5x_11.
+\]
+Find
+\[
+N=\sum_{D\mid P} F(D),
+\]
+where the sum runs over all monomial divisors $D$ of $P$.
+
+\section*{Solution 1 (Direct approach)}
+
+The given identity is invariant under replacing a monomial by its square, since
+taking $B=1$ (which is coprime to every monomial) yields
+\[
+F(A)^2 = F(A^2)\,F(1)\,F(A),
+\]
+and hence $F(A)=F(A^2)$ for all $A$. Thus $F$ depends only on the set of variables
+dividing the monomial.
+
+Moreover, the identity holds exactly when $A$ and $B$ share no variables.
+This forces $F$ to be multiplicative on monomials with disjoint variable sets and
+to fail multiplicativity whenever variables overlap. Consequently, there exists
+an integer $k\ge1$ such that
+\[
+F(M)=\mathrm{rad}(M)^k,
+\]
+where $\mathrm{rad}(M)$ is the product of the distinct variables dividing $M$.
+
+The normalization $F(x_2)=8$ gives
+\[
+2^k=8,
+\]
+so $k=3$. Hence
+\[
+F(M)=\mathrm{rad}(M)^3
+\quad\text{for all }M\in\mathcal M.
+\]
+
+Now $P=x_2x_3x_5x_11$ is squarefree, and its monomial divisors correspond to all
+subsets of $\{x_2,x_3,x_5,x_11\}$. Therefore,
+\[
+\sum_{D\mid P} F(D)
+=\sum_{S\subseteq\{2,3,5,11\}}\left(\prod_{p\in S} p\right)^3
+=\prod_{p\in\{2,3,5,11\}}(1+p^3).
+\]
+Computing,
+\[
+(1+2^3)(1+3^3)(1+5^3)(1+11^3)
+=9\cdot 28\cdot 126\cdot 1332
+=42293664.
+\]
+
+\section*{Solution 2 (Subset interpretation)}
+
+Each monomial corresponds uniquely to the subset of variables dividing it.
+The condition that $A$ and $B$ share no variable becomes disjointness of subsets.
+The functional equation then acts as a detector of disjointness.
+
+As in the direct solution, substituting $B=1$ forces $F(M)=F(M^2)$, so $F$ depends
+only on the associated subset. Disjointness multiplicativity implies that for some
+constants $c_p>1$,
+\[
+F(M)=\prod_{p\in\sigma(M)} c_p,
+\]
+where $\sigma(M)$ is the set of variables dividing $M$.
+The “only if” direction of the identity forces all $c_p$ to be equal powers
+$c_p=p^k$ with a common exponent $k$.
+The condition $F(x_2)=8$ yields $k=3$, so again $F(M)=\mathrm{rad}(M)^3$.
+
+Thus
+\[
+\sum_{D\mid P} F(D)
+=\prod_{p\in\{2,3,5,11\}}(1+p^3)
+=42293664.
+\]
+
+\section*{Answer}
+
+\[
+\boxed{42293664}
+\]
+
+\end{document}

@@ -1,0 +1,100 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Grace and Henry's Grid Partition}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+
+Grace and Henry are observing a square grid divided into $5041\times 5041$ unit cells arranged in rows and columns.
+Each cell contains either a \emph{star} or a \emph{moon}, arranged in a checkerboard pattern so that any two cells sharing a side contain different symbols.
+
+\section*{Solution}
+
+\subsection*{Step 1: Balance is automatic}
+
+Along any allowed trail, each step moves to a neighboring plot.
+Because the grid is colored in a checkerboard pattern, each step switches the type of symbol encountered.
+Thus the symbols along a trail strictly alternate.
+
+If a trail contains an even number of cells, it visits the same number of stars and moons.
+If it contains an odd number of plots, the difference is exactly one.
+Hence every allowed trail is automatically balanced, and the balance condition imposes no additional restriction.
+
+Therefore, the problem reduces to determining the minimum number of allowed trails needed to cover all plots.
+
+\subsection*{Step 2: An explicit construction}
+
+Grace assigns one trail to each column of the field.
+Each trail starts at the top plot of its column and proceeds straight downward through all $5041$ plots in that column.
+
+These $5041$ trails:
+\begin{itemize}
+\item obey the movement rules,
+\item are balanced by Step~1, and
+\item together cover every plot exactly once.
+\end{itemize}
+
+Thus $M\le 5041$.
+
+\subsection*{Step 3: Why fewer trails are impossible}
+
+To show that Bob cannot do better, Henry argues as follows.
+
+Each plot is divided along its diagonal from the upper-left corner to the lower-right corner, producing two triangular half-plots.
+Think of these diagonals as mirrors.
+
+Light beams are sent into the field through the midpoints of all boundary edges, perpendicular to the boundary.
+There are exactly $4\cdot 5041$ such entry points.
+Each beam reflects off the diagonal mirrors and eventually exits the boundary, thereby pairing the boundary edges into $2\cdot 5041$ disjoint pairs.
+
+Consider how these beams interact with Bob’s trails.
+Whenever a beam passes through a region corresponding to a segment of a trail, it exits that region on the same type of boundary edge (horizontal or vertical) on which it entered.
+A beam can change from a horizontal boundary to a vertical boundary, or vice versa, only by passing through a triangular half-plot that is not paired with another half-plot by the trail structure.
+
+Each trail has exactly two endpoints.
+Each endpoint creates exactly one such unpaired half-plot.
+Therefore the total number of unpaired half-plots is exactly $2M$.
+
+On the other hand, among the $2\cdot 5041$ boundary pairs, at least $5041$ pairs must connect a horizontal boundary edge with a vertical boundary edge.
+Each such mixed pair forces a beam to pass through at least one unpaired half-plot.
+
+Hence
+\[
+5041 \le 2M.
+\]
+
+Repeating the same argument after shifting all beam entry points by half a unit along the boundary produces an independent pairing and yields the same inequality again.
+Adding the two inequalities gives
+\[
+2\cdot 5041 \le 2M,
+\]
+so
+\[
+M\ge 5041.
+\]
+
+\subsection*{Conclusion}
+
+Bob has exhibited a covering using $5041$ trails, and Marley has shown that no covering can use fewer.
+Therefore the minimum possible number of trails is
+\[
+M=5041.
+\]
+
+\section*{Answer}
+
+\[
+\boxed{5041}
+\]
+
+\end{document}

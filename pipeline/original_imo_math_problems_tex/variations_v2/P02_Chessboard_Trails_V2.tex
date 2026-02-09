@@ -1,0 +1,100 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Eve and Frank's Chessboard Trails}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+
+Eve and Frank are observing a square chessboard divided into $3600\times 3600$ unit squares arranged in rows and columns.
+Each square contains either a \emph{knight} or a \emph{bishop}, arranged in a checkerboard pattern so that any two squares sharing a side contain different pieces.
+
+\section*{Solution}
+
+\subsection*{Step 1: Balance is automatic}
+
+Along any allowed trail, each step moves to a neighboring plot.
+Because the chessboard is colored in a checkerboard pattern, each step switches the type of piece encountered.
+Thus the pieces along a trail strictly alternate.
+
+If a trail contains an even number of squares, it visits the same number of knights and bishops.
+If it contains an odd number of plots, the difference is exactly one.
+Hence every allowed trail is automatically balanced, and the balance condition imposes no additional restriction.
+
+Therefore, the problem reduces to determining the minimum number of allowed trails needed to cover all plots.
+
+\subsection*{Step 2: An explicit construction}
+
+Eve assigns one trail to each column of the field.
+Each trail starts at the top plot of its column and proceeds straight downward through all $3600$ plots in that column.
+
+These $3600$ trails:
+\begin{itemize}
+\item obey the movement rules,
+\item are balanced by Step~1, and
+\item together cover every plot exactly once.
+\end{itemize}
+
+Thus $M\le 3600$.
+
+\subsection*{Step 3: Why fewer trails are impossible}
+
+To show that Bob cannot do better, Frank argues as follows.
+
+Each plot is divided along its diagonal from the upper-left corner to the lower-right corner, producing two triangular half-plots.
+Think of these diagonals as mirrors.
+
+Light beams are sent into the field through the midpoints of all boundary edges, perpendicular to the boundary.
+There are exactly $4\cdot 3600$ such entry points.
+Each beam reflects off the diagonal mirrors and eventually exits the boundary, thereby pairing the boundary edges into $2\cdot 3600$ disjoint pairs.
+
+Consider how these beams interact with Bob’s trails.
+Whenever a beam passes through a region corresponding to a segment of a trail, it exits that region on the same type of boundary edge (horizontal or vertical) on which it entered.
+A beam can change from a horizontal boundary to a vertical boundary, or vice versa, only by passing through a triangular half-plot that is not paired with another half-plot by the trail structure.
+
+Each trail has exactly two endpoints.
+Each endpoint creates exactly one such unpaired half-plot.
+Therefore the total number of unpaired half-plots is exactly $2M$.
+
+On the other hand, among the $2\cdot 3600$ boundary pairs, at least $3600$ pairs must connect a horizontal boundary edge with a vertical boundary edge.
+Each such mixed pair forces a beam to pass through at least one unpaired half-plot.
+
+Hence
+\[
+3600 \le 2M.
+\]
+
+Repeating the same argument after shifting all beam entry points by half a unit along the boundary produces an independent pairing and yields the same inequality again.
+Adding the two inequalities gives
+\[
+2\cdot 3600 \le 2M,
+\]
+so
+\[
+M\ge 3600.
+\]
+
+\subsection*{Conclusion}
+
+Bob has exhibited a covering using $3600$ trails, and Marley has shown that no covering can use fewer.
+Therefore the minimum possible number of trails is
+\[
+M=3600.
+\]
+
+\section*{Answer}
+
+\[
+\boxed{3600}
+\]
+
+\end{document}

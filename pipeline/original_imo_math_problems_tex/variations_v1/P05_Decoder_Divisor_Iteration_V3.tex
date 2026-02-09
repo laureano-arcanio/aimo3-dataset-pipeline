@@ -1,0 +1,102 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Line Route with All Distances Different}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+A ``decoder'' takes a positive integer $N$ (having at least three proper divisors) and outputs the sum of the three largest proper divisors of $N$.
+Starting from $a_1$, define a sequence by
+\[
+a_{n+1} = \psi(a_n)\qquad (n \ge 1),
+\]
+where $\psi(N)$ denotes the sum of the three largest proper divisors of $N$.
+
+Assume that the sequence is well-defined for all $n$ (that is, every $a_n$ has at least three proper divisors).
+
+Let $M = 1{,}200{,}000$.
+How many integers $a_1$ with $1 \le a_1 \le M$ satisfy this condition?
+
+\section*{Solution 1 (classification first)}
+
+From the analysis of the recurrence $a_{n+1}=\psi(a_n)$, one proves that the sequence is well-defined for all $n$ if and only if the initial value is of the form
+\[
+a_1 = 6\cdot 12^e \cdot \ell,
+\]
+where $e \ge 0$ and $\gcd(\ell,10)=1$.
+For such numbers, the three largest proper divisors are eventually $\tfrac{x}{2},\tfrac{x}{3},\tfrac{x}{4}$, and the recurrence remains defined forever; for all other starting values, the process eventually fails.
+
+Thus we must count all integers of the form $6\cdot 12^e \cdot \ell$ not exceeding $1{,}200{,}000$ with $\gcd(\ell,10)=1$.
+
+The inequality $6\cdot 12^e \le 1{,}200{,}000$ gives $e\in\{0,1,2,3,4\}$, since
+\[
+6\cdot 12^4 = 124{,}416 \le 1{,}200{,}000 < 6\cdot 12^5 = 1{,}492{,}992.
+\]
+For each $e$, set
+\[
+L_e = \left\lfloor \frac{1{,}200{,}000}{6\cdot 12^e} \right\rfloor.
+\]
+We must count integers $\ell \le L_e$ that are not divisible by $2$ or $5$.
+By inclusion--exclusion, this number equals
+\[
+L_e - \left\lfloor \frac{L_e}{2} \right\rfloor
+      - \left\lfloor \frac{L_e}{5} \right\rfloor
+      + \left\lfloor \frac{L_e}{10} \right\rfloor.
+\]
+
+Evaluating:
+\[
+\begin{array}{c|c|c}
+e & L_e & \text{count} \\
+\hline
+0 & 200{,}000 & 80{,}000 \\
+1 & 16{,}666 & 6{,}666 \\
+2 & 1{,}388 & 555 \\
+3 & 115 & 46 \\
+4 & 9 & 4 \\
+\end{array}
+\]
+
+Summing all cases gives
+\[
+80{,}000 + 6{,}666 + 555 + 46 + 4 = 87{,}271.
+\]
+
+\section*{Solution 2 (dynamics first)}
+
+Consider the recurrence $a_{n+1}=\psi(a_n)$.
+A divisor-ordering argument shows that if the iteration is to remain defined forever, every term must be divisible by $6$.
+Moreover, the only sustainable configuration of the three largest proper divisors is
+\[
+\frac{x}{2},\ \frac{x}{3},\ \frac{x}{4},
+\]
+which yields
+\[
+\psi(x)=\frac{x}{2}+\frac{x}{3}+\frac{x}{4}=\frac{13}{12}x.
+\]
+
+This forces the initial value to have the rigid structure
+\[
+a_1 = 6\cdot 12^e \cdot \ell,
+\]
+and to prevent larger competing divisors, the factor $\ell$ must be coprime to $10$.
+Conversely, any such $a_1$ keeps the iteration well-defined for all $n$ (and eventually stabilizes when $e=0$).
+
+Therefore, the valid initial values $a_1 \le 1{,}200{,}000$ are exactly those counted in Solution~1, giving the same total.
+
+\section*{Answer}
+
+\[
+\boxed{87{,}271}
+\]
+
+\end{document}

@@ -166,7 +166,6 @@ cython_debug/
 *.png
 *.jpg
 *.jpeg
-*.pdf
 *.svg
 !docs/*.png
 !docs/*.jpg

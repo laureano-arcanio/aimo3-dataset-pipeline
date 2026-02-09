@@ -1,0 +1,56 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Greenhouse Plant Bed Arrangement}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+
+A greenhouse has a $1600 \times 1600$ floor divided into unit square sections.
+Rectangular plant beds are placed on the floor, with sides parallel to the grid lines, and no two beds overlap.
+
+For irrigation, \emph{in each row and in each column, exactly one unit square must be left empty}.
+
+What is the \emph{minimum number of beds} needed?
+
+\section*{Solution (Extremal Argument using Erd\H{o}s--Szekeres)}
+
+Because there is exactly one empty square in each row and in each column, the empty squares define a permutation of the set $\{1,2,\dots,1600\}$.
+
+Let $a$ be the length of the longest increasing subsequence and $b$ the length of the longest decreasing subsequence of this permutation. By the Erd\H{o}s--Szekeres theorem,
+\[
+ab \ge 1600,
+\]
+which implies
+\[
+a + b \ge 2\sqrt{1600} = 80.
+\]
+
+Using a standard extremal labeling argument, one can mark at least
+\[
+1600 + a + b - 3
+\]
+unit squares such that no axis-aligned rectangle can cover more than one marked square.
+Therefore, each pallet can cover at most one marked square, and the number of beds is at least
+\[
+1600 + 40 - 3 = 1677.
+\]
+
+Hence, any valid configuration requires at least $437$ pallets.
+
+\section*{Answer}
+
+\[
+\boxed{1{,}677}
+\]
+
+\end{document}

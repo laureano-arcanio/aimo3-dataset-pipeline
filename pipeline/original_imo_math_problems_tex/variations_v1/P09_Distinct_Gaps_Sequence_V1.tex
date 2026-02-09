@@ -1,0 +1,102 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Line Route with All Distances Different}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+Fix $C = 3007$.  
+Consider a strictly increasing sequence of positive integers
+\[
+a_0 < a_1 < \cdots < a_m .
+\]
+Assume that for every $0 \le n \le m-2$,
+\[
+a_{n+2} - a_n \le 3007.
+\]
+Define the gaps $d_n = a_{n+1} - a_n$ for $0 \le n \le m-1$, and suppose that the gaps
+\[
+d_0, d_1, \dots, d_{m-1}
+\]
+are pairwise distinct.
+
+Find the maximum possible value of $m+1$.
+
+\section*{Solution 1 (Gap analysis)}
+
+Define $d_n = a_{n+1} - a_n$ for $0 \le n \le m-1$.  
+Since the sequence $(a_n)$ is strictly increasing, each $d_n$ is a positive integer.
+
+From the given condition,
+\[
+a_{n+2} - a_n = (a_{n+2} - a_{n+1}) + (a_{n+1} - a_n)
+= d_{n+1} + d_n \le 3007
+\]
+for all $0 \le n \le m-2$.
+
+Because $d_{n+1} \ge 1$, it follows that
+\[
+d_n \le 3006 \quad \text{for all } n.
+\]
+Hence all gaps belong to the set $\{1,2,\dots,3006\}$.
+
+Since the gaps are pairwise distinct, we must have
+\[
+m \le 3006,
+\]
+and therefore
+\[
+m+1 \le 3007.
+\]
+
+We now show that this bound is attainable.  
+Arrange the numbers $1,2,\dots,3006$ in the order
+\[
+3006,\,1,\,3005,\,2,\,3004,\,3,\,\dots
+\]
+alternating between the largest unused and smallest unused value.  
+For each adjacent pair in this sequence, the sum is at most $3007$.
+
+Let $d_0,\dots,d_{3005}$ be this ordering, and define $a_0 = 1$ and
+\[
+a_{n+1} = a_n + d_n.
+\]
+Then $(a_n)$ is strictly increasing, satisfies $a_{n+2} - a_n \le 3007$, and has $3007$ terms.
+
+Thus the maximum possible value of $m+1$ is $3007$.
+
+\section*{Solution 2 (Graph-theoretic interpretation)}
+
+Consider the graph whose vertices are the integers $1,2,\dots,3006$, with an edge between
+distinct vertices $x$ and $y$ if and only if
+\[
+x + y \le 3007.
+\]
+
+A sequence of pairwise distinct gaps $d_0,\dots,d_{m-1}$ satisfying
+$d_n + d_{n+1} \le 3007$ corresponds exactly to a simple path of length $m-1$ in this graph.
+Hence $m$ cannot exceed the number of vertices, which is $3006$, so $m+1 \le 3007$.
+
+The alternating ordering
+\[
+3006,\,1,\,3005,\,2,\,\dots
+\]
+defines a Hamiltonian path in this graph, since every adjacent pair sums to at most $3007$.
+Therefore a path using all $3006$ vertices exists, giving $m=3006$ and $m+1=3007$.
+
+\section*{Answer}
+
+\[
+\boxed{3007}
+\]
+
+\end{document}

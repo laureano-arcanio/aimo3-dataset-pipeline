@@ -1,0 +1,70 @@
+{
+  "unique_problem_count": 10,
+  "dedup_map": {
+    "P01_floor_sum_divisibility": {
+      "canonical_theme": "Count alpha in [0,B] such that sum_{k=1}^n floor(k alpha) is divisible by n for all n",
+      "files": [
+        "problems/Balanced_Numbers_and_Divisibility.tex",
+        "problems/Lattice_Points_Below_a_Line.tex"
+      ]
+    },
+    "P02_checkerboard_balanced_trails": {
+      "canonical_theme": "Minimum number of monotone trails to partition checkerboard grid",
+      "files": [
+        "problems/Bob_and_Marleys_Balanced_Trails.tex"
+      ]
+    },
+    "P03_functional_equation_disjointness": {
+      "canonical_theme": "Same functional-equation skeleton where equality characterizes disjointness/coprimality, then count derived objects",
+      "files": [
+        "problems/Coprime_Pairs_and_Functional_Equation.tex",
+        "problems/Monomial_Function_and_Divisors.tex"
+      ]
+    },
+    "P04_grid_rectangles_with_permutation_holes": {
+      "canonical_theme": "Partition n x n grid minus one cell per row/column into minimum axis-aligned rectangles",
+      "files": [
+        "problems/Data_Center_Task_Scheduling.tex",
+        "problems/Warehouse_Floor_Pallet_Arrangement.tex"
+      ]
+    },
+    "P05_three_largest_proper_divisors_iteration": {
+      "canonical_theme": "Iterate psi(N)=sum of 3 largest proper divisors; count initial values with infinite well-defined sequence",
+      "files": [
+        "problems/Decoder_Function_and_Divisor_Sequences.tex"
+      ]
+    },
+    "P06_triangular_lattice_lines_attainable_k": {
+      "canonical_theme": "Cover triangular lattice points with n lines; classify attainable number of non-standard lines",
+      "files": [
+        "problems/Docking_Nodes_and_Rails.tex"
+      ]
+    },
+    "P07_eventually_periodic_real_sequence": {
+      "canonical_theme": "Sequence with recurrence + square-summable increments + eventual periodicity; maximize number of distinct values",
+      "files": [
+        "problems/Eventually_Periodic_Real_Sequences.tex"
+      ]
+    },
+    "P08_distinct_consecutive_distances_route": {
+      "canonical_theme": "Permutation route on 1..2N-1 with all consecutive distances distinct; minimize max(endpoint values)",
+      "files": [
+        "problems/Route_with_Distinct_Consecutive_Distances.tex",
+        "problems/Minimum_Endpoint_Value_in_Distinct_Distance_Routes.tex"
+      ]
+    },
+    "P09_increasing_sequence_distinct_gaps": {
+      "canonical_theme": "Strictly increasing integer sequence with pairwise distinct gaps and bound on two-step differences; maximize length",
+      "files": [
+        "problems/Positive_Integer_Sequence_Properties.tex"
+      ]
+    },
+    "P10_parameterized_geometry_uniqueness": {
+      "canonical_theme": "Parameterized geometry setup where exactly one parameter value satisfies the target tangency/angle identity",
+      "files": [
+        "problems/Triangle_Incenter_and_Angle_Identity.tex",
+        "problems/Two_Intersecting_Circles_and_Tangent_Lines.tex"
+      ]
+    }
+  }
+}

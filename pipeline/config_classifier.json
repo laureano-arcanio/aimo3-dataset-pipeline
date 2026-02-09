@@ -1,0 +1,219 @@
+## Core idea: return `(value, source, confidence, evidence, disagreements)`
+
+Even if you don’t store all of this long term, it’s helpful during iteration.
+
+* `value`: final label
+* `source`: `heuristic | llm | merged`
+* `confidence`: `high | med | low`
+* `evidence`: compact list (regex hits, AST stats)
+* `disagreement`: bool / or record the conflicting values
+
+You can keep it lightweight: store `source` + `confidence` + `disagreement` and drop `evidence` later.
+
+---
+
+## from_solution consensus rules
+
+### 1) `reasoning_shape`
+
+**Recommended:** **Heuristic overrides** (AST/control-flow wins)
+
+* If heuristic says `branching` or `multi_branch_recombine` → final = heuristic (high confidence).
+* Else (heuristic says `linear`) → final = `linear` unless LLM is *very* confident AND has explicit evidence (usually not worth it).
+
+Why: This is structurally detectable and your distribution is heavily skewed, so you want high precision on the rare tail.
+
+**Policy**
+
+* `heur != "linear"` → take `heur`
+* else → take `linear` (ignore LLM)
+
+**Store**
+
+* `source="heuristic"` always
+* `confidence=high` when non-linear, `med` when linear
+
+---
+
+### 2) `case_split`
+
+**Recommended:** **Heuristic-only** (same reasoning)
+
+* `binary/multi` are rare and easy to detect via `if/elif/else` or “Case 1/2”.
+* LLM is too style-sensitive.
+
+**Policy**
+
+* final = heuristic
+* if heuristic returns `none` but LLM returns `binary/multi`, mark `disagreement=true` but keep `none`
+
+**Store**
+
+* `confidence=high` for `binary/multi`, `med` for `none`
+
+---
+
+### 3) `auxiliary_construction`
+
+**Recommended:** **Heuristic-first with LLM fallback** (but only if you need recall)
+
+This one can be:
+
+* `structural` (def/list/dict/set, recursion)
+* `symbolic` (introducing algebraic variables)
+* `none`
+
+Heuristic can be very good, but sometimes solutions do symbolic constructions without obvious patterns.
+
+**Policy**
+
+* If heuristic says `structural` → take it (high)
+* Else if heuristic says `symbolic` with strong signals (>= threshold assignments / vars) → take it (high/med)
+* Else heuristic says `none`:
+
+  * If LLM says `structural` with high confidence → optionally upgrade to `structural` (but only if you have a confidence signal)
+  * Otherwise keep `none`
+
+**Practical default (simpler, safer):**
+
+* Use heuristic only.
+* Later, if you see under-detection, add the LLM fallback.
+
+---
+
+### 4) `reasoning_depth_proxy`
+
+**Recommended:** **Heuristic-only** (and treat as a numeric bucket proxy)
+
+This is fundamentally a proxy of code complexity. LLM adds noise.
+
+**Policy**
+
+* final = heuristic bucket
+* optional: store the raw numeric metrics used (lines, AST nodes, nesting) for analysis.
+
+**Store**
+
+* `confidence=med` always (because it’s a proxy)
+* include `depth_features={ast_nodes, max_depth, stmts}` if cheap
+
+---
+
+### 5) `intermediate_reuse_proxy`
+
+**Recommended:** **Heuristic-only** (proxy)
+
+LLM is not reliable here, and style dominates.
+
+**Policy**
+
+* final = heuristic bucket
+* ignore LLM
+
+**Store**
+
+* `confidence=med`
+* optionally store `reuse_features={num_reused_vars, max_reuse_count}`
+
+---
+
+## from_text consensus rules
+
+### 6) `objects`
+
+**Recommended:** **Union with caps**, heuristic has priority ordering.
+
+Objects are statement-entailed-ish and regex detection is stable. LLM can add recall (e.g., “vector”, “matrix” in less obvious phrasing).
+
+**Policy**
+
+1. Start with heuristic objects (ranked, top 3)
+2. Add LLM objects only if:
+
+   * they are in allowlist AND
+   * they do **not** contradict the text heuristics AND
+   * total objects ≤ 3 (or 4 max)
+3. If heuristic finds none but LLM finds some → keep LLM (low confidence)
+
+**Concrete**
+
+* final = `top_k(heur ∪ llm_filtered, k=3)`
+* `llm_filtered` requires at least one supporting token hit (optional: “soft evidence” check)
+
+This gives you recall without blowing up noise.
+
+---
+
+### 7) `constraints`
+
+**Recommended:** **Heuristic-first + LLM add-only for “forall/exists”** (careful)
+
+Regex can reliably detect:
+
+* equality/inequality/divisibility/parity/boundedness
+
+LLM sometimes helps with:
+
+* `forall/exists` phrasing
+* but can hallucinate too
+
+**Policy**
+
+* Start = heuristic set (cap at 4)
+* Add LLM only for `{forall, exists}` if LLM detects and heuristic missed AND the text contains any trigger (“for all”, “for every”, “there exists”, “find … such that”).
+* Otherwise ignore LLM constraints.
+
+**Concrete**
+
+* final = `cap4(heur ∪ llm_exist_forall_if_triggered)`
+
+---
+
+### 8) `output_type`
+
+**Recommended:** **Heuristic overrides**, LLM only if heuristic uncertain.
+
+Output type is *usually* derivable from the last sentence / keywords.
+Heuristic is stable and deterministic.
+
+**Policy**
+
+* If heuristic returns something other than the fallback default (e.g., not just `exact_value`) → take heuristic (high)
+* If heuristic returns default and LLM returns something more specific:
+
+  * accept LLM only if it matches explicit keywords (proof/existence/classification/max/min)
+  * else keep heuristic default
+
+**Concrete**
+
+* proof/existence/classification/max/min should require explicit triggers
+* “find” is too common → keep as exact_value unless other triggers exist
+
+---
+
+## Suggested “consensus mode” per field (summary)
+
+| Field                    | Default winner       | LLM role                 | Notes                               |
+| ------------------------ | -------------------- | ------------------------ | ----------------------------------- |
+| reasoning_shape          | heuristic            | none                     | exception detector                  |
+| case_split               | heuristic            | none                     | exception detector                  |
+| auxiliary_construction   | heuristic            | optional fallback        | only upgrade from none if confident |
+| reasoning_depth_proxy    | heuristic            | none                     | proxy bucket                        |
+| intermediate_reuse_proxy | heuristic            | none                     | proxy bucket                        |
+| objects                  | merged (union + cap) | add-only                 | cap to 3; heuristic ranked          |
+| constraints              | heuristic            | add-only (exists/forall) | require trigger words               |
+| output_type              | heuristic            | fallback if uncertain    | require explicit triggers           |
+
+This gives you maximum stability and minimizes hallucinated metadata.
+
+---
+
+## Implementation tip: generic merge helper
+
+Make a single merge function with per-field policy constants, so you can tune without refactoring:
+
+* `MODE = { "reasoning_shape":"HARD_HEUR", "objects":"UNION_CAP", ... }`
+* `TRIGGERS = {...}`
+* `CAPS = {...}`
+
+---

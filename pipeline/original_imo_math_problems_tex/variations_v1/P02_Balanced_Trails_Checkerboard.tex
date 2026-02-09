@@ -1,0 +1,110 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Line Route with All Distances Different}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+A square grid of size $2027\times 2027$ is colored in a checkerboard pattern so that any two cells sharing a side have different colors.
+Each cell is colored either \emph{black} or \emph{white}.
+
+A \emph{trail} is a sequence of adjacent cells satisfying one of the following rules:
+\begin{itemize}
+\item the trail moves only to the right or downward, or
+\item the trail moves only to the right or upward.
+\end{itemize}
+
+A trail is called \emph{balanced} if the number of black cells it visits differs from the number of white cells it visits by at most one.
+
+We wish to cover the entire grid with trails so that every cell belongs to exactly one trail and every trail is balanced.
+Determine the smallest possible number $M$ of trails needed.
+
+\section*{Solution}
+
+\subsection*{Step 1: Balance is automatic}
+
+Along any allowed trail, each step moves to a neighboring cell.
+Because the grid is colored in a checkerboard pattern, each step switches color.
+Thus the colors along a trail strictly alternate.
+
+If a trail contains an even number of cells, it visits the same number of black and white cells.
+If it contains an odd number of cells, the difference is exactly one.
+Hence every allowed trail is automatically balanced, and the balance condition imposes no additional restriction.
+
+Therefore, the problem reduces to determining the minimum number of allowed trails needed to cover all cells.
+
+\subsection*{Step 2: An explicit construction}
+
+A construction assigns one trail to each column of the grid.
+Each trail starts at the top cell of its column and proceeds straight downward through all $2027$ cells in that column.
+
+These $2027$ trails:
+\begin{itemize}
+\item obey the movement rules,
+\item are balanced by Step~1, and
+\item together cover every cell exactly once.
+\end{itemize}
+
+Thus $M\le 2027$.
+
+\subsection*{Step 3: Why fewer trails are impossible}
+
+To show that no covering can use fewer trails, we argue as follows.
+
+Each cell is divided along its diagonal from the upper-left corner to the lower-right corner, producing two triangular half-cells.
+Think of these diagonals as mirrors.
+
+Light beams are sent into the grid through the midpoints of all boundary edges, perpendicular to the boundary.
+There are exactly $4\cdot 2027$ such entry points.
+Each beam reflects off the diagonal mirrors and eventually exits the boundary, thereby pairing the boundary edges into $2\cdot 2027$ disjoint pairs.
+
+Consider how these beams interact with the trails.
+Whenever a beam passes through a region corresponding to a segment of a trail, it exits that region on the same type of boundary edge (horizontal or vertical) on which it entered.
+A beam can change from a horizontal boundary to a vertical boundary, or vice versa, only by passing through a triangular half-cell that is not paired with another half-cell by the trail structure.
+
+Each trail has exactly two endpoints.
+Each endpoint creates exactly one such unpaired half-cell.
+Therefore the total number of unpaired half-cells is exactly $2M$.
+
+On the other hand, among the $2\cdot 2027$ boundary pairs, at least $2027$ pairs must connect a horizontal boundary edge with a vertical boundary edge.
+Each such mixed pair forces a beam to pass through at least one unpaired half-cell.
+
+Hence
+\[
+2027 \le 2M.
+\]
+
+Repeating the same argument after shifting all beam entry points by half a unit along the boundary produces an independent pairing and yields the same inequality again.
+Adding the two inequalities gives
+\[
+2\cdot 2027 \le 2M,
+\]
+so
+\[
+M\ge 2027.
+\]
+
+\subsection*{Conclusion}
+
+A covering using $2027$ trails exists, and the lower bound shows that no covering can use fewer.
+Therefore the minimum possible number of trails is
+\[
+M=2027.
+\]
+
+\section*{Answer}
+
+\[
+\boxed{2027}
+\]
+
+\end{document}

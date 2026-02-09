@@ -1,0 +1,55 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Line Route with All Distances Different}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+A company has a $400 \times 400$ warehouse floor divided into unit square bays.
+Rectangular pallets are placed on the floor, with sides parallel to the grid lines, and no two pallets overlap.
+
+For ventilation reasons, \emph{in each row and in each column, exactly one unit square must be left empty}.
+
+What is the \emph{minimum number of pallets} needed?
+
+\section*{Solution (Extremal Argument using Erd\H{o}s--Szekeres)}
+
+Because there is exactly one empty square in each row and in each column, the empty squares define a permutation of the set $\{1,2,\dots,400\}$.
+
+Let $a$ be the length of the longest increasing subsequence and $b$ the length of the longest decreasing subsequence of this permutation. By the Erd\H{o}s--Szekeres theorem,
+\[
+ab \ge 400,
+\]
+which implies
+\[
+a + b \ge 2\sqrt{400} = 40.
+\]
+
+Using a standard extremal labeling argument, one can mark at least
+\[
+400 + a + b - 3
+\]
+unit squares such that no axis-aligned rectangle can cover more than one marked square.
+Therefore, each pallet can cover at most one marked square, and the number of pallets is at least
+\[
+400 + 40 - 3 = 437.
+\]
+
+Hence, any valid configuration requires at least $437$ pallets.
+
+\section*{Answer}
+
+\[
+\boxed{437}
+\]
+
+\end{document}

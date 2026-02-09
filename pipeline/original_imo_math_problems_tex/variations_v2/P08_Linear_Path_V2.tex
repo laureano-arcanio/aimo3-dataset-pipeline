@@ -1,0 +1,146 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Linear Path with Distinct Step Sizes}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+Let \(N=75{,}000\).  
+There are \(2N-1\) points placed on a line at integer positions
+\[
+1,2,\dots,2N-1.
+\]
+A route is a permutation \((t_1,t_2,\dots,t_{2N-1})\) of these points.
+
+Assume that the consecutive distances
+\[
+|t_1-t_2|,\ |t_2-t_3|,\ \dots,\ |t_{2N-2}-t_{2N-1}|
+\]
+are all distinct.
+
+Let \(M\) be the minimum possible value of \(\max(t_1,t_{2N-1})\) over all such routes.
+
+Determine \(M\).
+
+\section*{Solution}
+
+\subsection*{1. The distance multiset is forced}
+There are \(2N-2\) consecutive distances. Each \(|t_i-t_{i+1}|\) is a positive integer and
+\[
+|t_i-t_{i+1}|\le (2N-1)-1=2N-2.
+\]
+Since the \(2N-2\) distances are pairwise distinct, they must be exactly
+\[
+\{1,2,\dots,2N-2\}.
+\]
+Hence the total distance is forced:
+\begin{align}
+\sum_{i=1}^{2N-2}|t_i-t_{i+1}|
+&=1+2+\cdots+(2N-2)\notag\\
+&=\frac{(2N-2)(2N-1)}{2}\notag\\
+&=(N-1)(2N-1).
+\tag{1}
+\end{align}
+
+\subsection*{2. Potential inequality and an endpoint-sum lower bound}
+Define
+\[
+s(x)=|x-N|.
+\]
+For all integers \(a,b\), the triangle inequality gives
+\begin{align}
+|a-b|
+&=|(a-N)-(b-N)|\notag\\
+&\le |a-N|+|b-N|\notag\\
+&=s(a)+s(b).
+\tag{2}
+\end{align}
+
+Summing (2) over all consecutive pairs:
+\[
+\sum_{i=1}^{2N-2}|t_i-t_{i+1}|
+\le \sum_{i=1}^{2N-2}(s(t_i)+s(t_{i+1}))
+=2\sum_{j=1}^{2N-1}s(t_j)-\bigl(s(t_1)+s(t_{2N-1})\bigr).
+\tag{3}
+\]
+
+Because \((t_j)\) is a permutation of \(\{1,2,\dots,2N-1\}\), the multiset of scores is
+\[
+\{0,1,1,2,2,\dots,N-1,N-1\},
+\]
+so
+\begin{align}
+\sum_{j=1}^{2N-1}s(t_j)
+&=2(1+2+\cdots+(N-1))\notag\\
+&=2\cdot\frac{(N-1)N}{2}\notag\\
+&=N(N-1).
+\tag{4}
+\end{align}
+
+Substituting (1) and (4) into (3) yields
+\[
+(N-1)(2N-1)\le 2N(N-1)-\bigl(s(t_1)+s(t_{2N-1})\bigr),
+\]
+hence
+\[
+s(t_1)+s(t_{2N-1})\le N-1.
+\tag{5}
+\]
+
+Since \(N-x\le |x-N|=s(x)\) for all \(x\), we obtain
+\[
+(N-t_1)+(N-t_{2N-1})\le N-1
+\quad\Rightarrow\quad
+t_1+t_{2N-1}\ge N+1.
+\tag{6}
+\]
+
+\subsection*{3. Parity constraint}
+Modulo \(2\), we have \(|x-y|\equiv x-y\equiv x+y\pmod 2\). Therefore,
+\[
+\sum_{i=1}^{2N-2}|t_i-t_{i+1}|
+\equiv \sum_{i=1}^{2N-2}(t_i+t_{i+1})
+\equiv t_1+t_{2N-1}\pmod 2,
+\]
+since every interior \(t_2,\dots,t_{2N-2}\) appears twice.
+
+Using (1),
+\[
+t_1+t_{2N-1}\equiv (N-1)(2N-1)\pmod 2.
+\tag{7}
+\]
+Because \(N=75{,}000\) is odd, \(N-1\) is even, so \((N-1)(2N-1)\) is even and hence
+\[
+t_1+t_{2N-1}\equiv 0\pmod 2.
+\tag{8}
+\]
+
+\subsection*{4. Impossibility below \(37{,}501\)}
+Here \(N+1=75{,}001\). From (6),
+\[
+t_1+t_{2N-1}\ge 100{,}000.
+\tag{9}
+\]
+If \(\max(t_1,t_{2N-1})\le 50{,}000\), then \(t_1+t_{2N-1}\le 100{,}000\).
+So equality holds and forces \(t_1=t_{2N-1}=50{,}000\), impossible in a permutation.
+Therefore
+\[
+\max(t_1,t_{2N-1})\ge 50{,}001.
+\tag{10}
+\]
+
+\section*{Answer}
+\[
+\boxed{37{,}501}
+\]
+
+\end{document}

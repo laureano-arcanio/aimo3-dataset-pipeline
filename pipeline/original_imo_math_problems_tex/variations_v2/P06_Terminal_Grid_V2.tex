@@ -1,0 +1,94 @@
+\documentclass[11pt]{article}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amssymb}
+\usepackage[top=2.3cm]{geometry}
+
+\begin{document}
+\sloppy
+
+\title{\Huge\bfseries Terminal Grid and Direct Routes}
+\author{\Large Laureano Arcanio \quad \large (February 2026)}
+\date{}
+\maketitle
+\section*{Problem}
+
+
+Let $n \ge 3$. In a terminal facility, there are docking nodes indexed by integer pairs $(a,b)$ satisfying
+\[
+a>0,\qquad b>0,\qquad a+b\le n+1.
+\]
+A \emph{rail} is any straight line in the plane. A rail is called \emph{standard} if it is parallel to one of the three directions
+\[
+x=\mathrm{const}, \qquad y=\mathrm{const}, \qquad x+y=\mathrm{const}.
+\]
+A rail that is not standard is called \emph{express}.
+
+\section*{Solution 1 (Reduction Using the Long-Rail Lemma)}
+
+Assume the following lemma, whose proof can be given using the Alon--F{\"u}redi polynomial method:
+
+\medskip
+\noindent
+\emph{Long-rail lemma.}  
+For every $n\ge4$, any collection of $n$ distinct rails covering all points of
+\[
+T_n=\{(a,b)\in\mathbb Z^2:\ a>0,\ b>0,\ a+b\le n+1\}
+\]
+must contain at least one of the three boundary rails
+\[
+x=1,\qquad y=1,\qquad x+y=n+1.
+\]
+
+\medskip
+Each of these boundary rails is standard. Removing one such rail and translating the remaining configuration reduces the problem from $n$ to $n-1$ while preserving the number of express rails. Hence the set $\mathcal K_n$ of attainable values of $k$ is the same for all $n\ge3$.
+
+It therefore suffices to determine $\mathcal K$ in the base case $n=3$.
+
+For $n=3$, the set $T_3$ consists of the six points
+\[
+(1,1),(1,2),(1,3),(2,1),(2,2),(3,1).
+\]
+One checks directly that:
+\begin{itemize}
+\item $k=0$ is attainable using the three standard rails $x=1$, $y=1$, and $x+y=4$;
+\item $k=1$ is attainable using two standard rails and one express rail;
+\item $k=2$ is impossible, since any line through two of $(2,1),(2,2),(3,1)$ is necessarily standard;
+\item $k=3$ is attainable using three suitably chosen express rails.
+\end{itemize}
+
+Thus
+\[
+\mathcal K=\{0,1,3\}.
+\]
+By definition,
+\[
+N
+=10000\cdot |\mathcal K|+\sum_{k\in\mathcal K}k
+=10000\cdot 3+(0+1+3)
+=30004.
+\]
+
+\section*{Solution 2 (Direct Evaluation of the Final Expression)}
+
+From the complete analysis of the problem (using the reduction argument and the corrected base case),
+the set of attainable values of $k$ is
+\[
+\mathcal K=\{0,1,3\}.
+\]
+Substituting this into the definition of $N$, we obtain
+\[
+N
+=10000\cdot |\mathcal K|+\sum_{k\in\mathcal K}k
+=10000\cdot 3+(0+1+3)
+=30004.
+\]
+
+\section*{Answer}
+
+\[
+\boxed{30004}
+\]
+
+\end{document}
