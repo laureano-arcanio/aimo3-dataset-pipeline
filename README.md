@@ -1,20 +1,4 @@
-### Original Olympiad-style problems matters
-
-Creating genuinely novel Olympiad-style problems with clean, verifiable integer answers is hard. Doing it well takes time, mathematical care, and iteration — and it does not scale easily. For this reason, the collection does not attempt to compete with large curated Olympiad archives by volume.
-
-Instead, we include a **small, high-confidence set of original Olympiad-style problems** whose role is *diagnostic rather than expansive*.
-
-These problems were authored specifically for this project by the dataset creator, who has a background in mathematics and physics, and were independently reviewed and corrected by a PhD mathematician. They are used **exclusively for validation and analysis** and are **not included in the main training corpus**.
-
-Because their structure, intended reasoning, and solution paths are known exactly, this set serves as a **ground-truth validation layer** for the framework itself. In particular, it is used to verify that inference levels and extracted metadata behave as intended on problems that are not recycled, templated, or distributionally familiar.
-
-Most of the original problems admit **multiple independent solution paths**. These solutions differ meaningfully in structure and reasoning strategy while leading to the same verified answer. This allows us to check that level assignments and metadata annotations are **solution-invariant**, rather than artifacts of a particular reasoning trace.
-
-It also exposes distinct failure modes for the *same* problem under identical inference constraints, providing richer diagnostic signal than single-solution benchmarks.
-
-This mirrors common practice in measurement and benchmark design, where **limited but trusted instruments** are used to calibrate and validate much larger systems.
-
-# AIMO3 Dataset Pipeline
+## AIMO3 Dataset Pipeline
 
 A production pipeline for processing mathematical problems into high-quality training datasets. The pipeline extracts problems from databases, generates solutions via LLM, classifies difficulty and structure, filters for quality, and produces labeled datasets ready for model training.
 
