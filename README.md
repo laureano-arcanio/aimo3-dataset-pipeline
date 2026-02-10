@@ -1,4 +1,4 @@
-### Original Olympiad-style problems matters
+## Original Olympiad-style problems matters
 
 Creating genuinely novel Olympiad-style problems with clean, verifiable integer answers is hard. Doing it well takes time, mathematical care, and iteration — and it does not scale easily. For this reason, the collection does not attempt to compete with large curated Olympiad archives by volume.
 
@@ -14,7 +14,7 @@ It also exposes distinct failure modes for the *same* problem under identical in
 
 This mirrors common practice in measurement and benchmark design, where **limited but trusted instruments** are used to calibrate and validate much larger systems.
 
-# AIMO3 Dataset Pipeline
+## AIMO3 Dataset Pipeline
 
 A production pipeline for processing mathematical problems into high-quality training datasets. The pipeline extracts problems from databases, generates solutions via LLM, classifies difficulty and structure, filters for quality, and produces labeled datasets ready for model training.
 
